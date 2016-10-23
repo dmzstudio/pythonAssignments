@@ -66,6 +66,7 @@ def ellipsoidVolume():
     print("Enter the third radius of the ellipsoid: ")
     radius3 = int(input("> "))
     ellipsoid_volume = (4/3 * math.pi * radius1 * radius2 * radius3)
+    ellipsoid_volume = round(ellipsoid_volume, 2)
     return ellipsoid_volume, radius1, radius2, radius3
 
 # Function that displays all the volumes stored in their lists.
