@@ -42,6 +42,7 @@ def cubeVolume():
     print("Enter the side length of the cube: ")
     sideLength = int(input("> "))
     cube_volume = (sideLength**3)
+    cube_volume = round(cube_volume, 2)
     return cube_volume, sideLength
 
 # Function to calculate the volume of pyramids.
@@ -52,6 +53,7 @@ def pyramidVolume():
     print("Enter the height of the pyramid: ")
     pyramidHeight = int(input("> "))
     pyramid_volume = (1/3 * pyramidBase ** 2 * pyramidHeight)
+    pyramid_volume = round(pyramid_volume, 2)
     return pyramid_volume, pyramidBase, pyramidHeight
 
 # Function to calculate the volume of ellipsoids.
@@ -108,17 +110,17 @@ while quit == False:
     if userInput== "cube":
         cube_volume, sideLength = cubeVolume()
         cubeVolumeList.append(cube_volume)
-        print("The volume of a cube with a side length of %s is %s:" % (sideLength, cube_volume))
+        print("The volume of a cube with a side length of %s is: %.2f" % (sideLength, cube_volume))
 
     elif userInput == "pyramid":
         pyramid_volume, pyramidBase, pyramidHeight = pyramidVolume()
         pyramidVolumeList.append(pyramid_volume)
-        print("The volume of a pyramid with a base of %s and a height of %s is %s:" % (pyramidBase, pyramidHeight, pyramid_volume))
+        print("The volume of a pyramid with a base of %s and a height of %s is: %.2f" % (pyramidBase, pyramidHeight, pyramid_volume))
 
     elif userInput == "ellipsoid":
         ellipsoid_volume, radius1, radius2, radius3 = ellipsoidVolume()
         ellipsoidVolumeList.append(ellipsoid_volume)
-        print("The volume of an ellipsoid with radii %s, %s, and %s is %s:" % (radius1, radius2, radius3, ellipsoid_volume))
+        print("The volume of an ellipsoid with radii %s, %s, and %s is: %.2f" % (radius1, radius2, radius3, ellipsoid_volume))
 
     # If the sentinnel 'quit' is entered, it will exit the program.
     if userInput == "quit":
