@@ -40,6 +40,7 @@ dCode = "[ D ]"
 wName = "Weekly"
 wCode = "[ W ]"
 
+
 # Titles
 nameTitle = "Name: "
 ageTitle = "Age: "
@@ -48,6 +49,7 @@ numOfDaysTitle = "Number of Days Rented: "
 startOdometerTitle = "Start Odometer Reading: "
 finalOdometerTitle = "Final Odometer Reading: "
 kmDrivenTitle = "Kilometers Driven: "
+
 
 # Display the three classification codes.
 print()
@@ -68,7 +70,7 @@ if not (classCode == "B" or classCode == "D" or classCode == "W"):
     # Display error message, invalid code, customer name, and age.
     print("Error: Invalid classification code [", classCode, "] was entered.")
     print()
-    print("%-8s %50s" % (nameTitle, name))
+    print("%-8s %20s" % (nameTitle, name))
     print()
     print("%-8s %20.0f" % (ageTitle, age))
     print()
@@ -99,17 +101,19 @@ print("*"*46)
 print()
 
 # CONSTANTS
-WEEK = (numOfDays // 7)+1
+WEEK = (numOfDays // 7) + 1
 KM_DRIVEN = finalOdometer - startOdometer
+AVG_KM_DAY = (KM_DRIVEN / numOfDays)
+AVG_KM_WEEK = (KM_DRIVEN / WEEK)
 YOUNG_DRIVER_SURCHARGE = (numOfDays * 10)
 BUDGET_BASE_CHARGE = (20 * numOfDays)
 BUDGET_KM_CHARGE = KM_DRIVEN * 0.30
-DAILY_BASE_CHARGE = (50 * numOfDays)
-DAILY_KM_SURCHARGE = ((KM_DRIVEN - 100) * 0.30)
-WEEKLY_BASE_CHARGE = (200 * WEEK)
-WEEKLY_KM_SURCHARGE_A = (50)
-WEEKLY_KM_SURCHARGE_B = (100)
-WEEKLY_KM_OVER_2000 = ((KM_DRIVEN - 2000) * 0.30)
+DAY_BASE_CHARGE = (50 * numOfDays)
+DAY_KM_SURCHARGE = (KM_DRIVEN - 100*numOfDays) * 0.30
+WEEK_BASE_CHARGE = (200 * WEEK)
+WEEK_KM_SURCHARGE_A = (50 * WEEK)
+WEEK_KM_SURCHARGE_B = (100 * WEEK)
+WEEK_KM_OVER_2000 = (KM_DRIVEN - 2000*WEEK) * 0.30
 
 # Process customer information and display results.
 print()
@@ -176,14 +180,14 @@ if classCode == "B" :
 elif classCode == "D" :
     # a. base charge: $50.00/day
     dailyBaseChargeTitle = "Base Daily Charge: "
-    print("%-36s $%6.2f" % (dailyBaseChargeTitle, DAILY_BASE_CHARGE))
+    print("%-36s $%6.2f" % (dailyBaseChargeTitle, DAY_BASE_CHARGE))
 
     # b. kms charge: if <= 100km = $0
-    if KM_DRIVEN <= 100 :
+    if AVG_KM_DAY <= 100 :
         dailyKmCharge = 0
     # else = $0.30/km
-    elif KM_DRIVEN >= 100 :
-        dailyKmCharge = DAILY_KM_SURCHARGE
+    elif AVG_KM_DAY >= 100 :
+        dailyKmCharge = DAY_KM_SURCHARGE
 
     dailyKmChargeTitle = "Extra Km Surcharge: "
     print("%-36s $%6.2f" % (dailyKmChargeTitle, dailyKmCharge))
@@ -192,9 +196,9 @@ elif classCode == "D" :
 
     # c. total charges
     if age < 25 :
-        dailyTotalCharge = (YOUNG_DRIVER_SURCHARGE + DAILY_BASE_CHARGE + dailyKmCharge)
+        dailyTotalCharge = (YOUNG_DRIVER_SURCHARGE + DAY_BASE_CHARGE + dailyKmCharge)
     else :
-        dailyTotalCharge = (DAILY_BASE_CHARGE + dailyKmCharge)
+        dailyTotalCharge = (DAY_BASE_CHARGE + dailyKmCharge)
 
     dailyTotalChargeTitle = "Total Charges: "
     print("%-36s $%6.2f" % (dailyTotalChargeTitle, dailyTotalCharge))
@@ -203,23 +207,20 @@ elif classCode == "D" :
 elif classCode == "W" :
     # a. base charge: $200.00/week or fraction of a week
     weekBaseChargeTitle = "Base Weekly Charge: "
-    print("%-36s $%6.2f" % (weekBaseChargeTitle, WEEKLY_BASE_CHARGE))
+    print("%-36s $%6.2f" % (weekBaseChargeTitle, WEEK_BASE_CHARGE))
 
     # b. km surcharge:
     # if avg km/wk <= 1000 = $0
-    if KM_DRIVEN <= 1000 :
+    if AVG_KM_WEEK <= 1000 :
         weeklyKmCharge = 0
 
     # if avg km/wk > 1000 and < 2000 = $50/wk
-    elif KM_DRIVEN > 1000 and KM_DRIVEN < 2000 :
-        if numOfDays <= 7 :
-            weeklyKmCharge = WEEKLY_KM_SURCHARGE_A
-        elif numOfDays > 7 :
-            weeklyKmCharge = (2 * WEEKLY_KM_SURCHARGE_A)
+    elif AVG_KM_WEEK > 1000 and AVG_KM_WEEK < 2000 :
+        weeklyKmCharge = WEEK_KM_SURCHARGE_A
 
     # if avg km/wk > 2000/wk = $100/wk + $0.30/km over the 2000 km/wk.
-    elif KM_DRIVEN > 2000 :
-        weeklyKmCharge = (WEEKLY_KM_SURCHARGE_B + WEEKLY_KM_OVER_2000)
+    elif AVG_KM_WEEK >= 2000 :
+        weeklyKmCharge = (WEEK_KM_SURCHARGE_B + WEEK_KM_OVER_2000)
 
     # weekly km surcharge
     weekKmTitle = "Extra Km Surcharge: "
@@ -229,9 +230,9 @@ elif classCode == "W" :
 
     # c. total charges
     if age < 25 :
-        weeklyTotalCharge = (YOUNG_DRIVER_SURCHARGE + WEEKLY_BASE_CHARGE + weeklyKmCharge)
+        weeklyTotalCharge = (YOUNG_DRIVER_SURCHARGE + WEEK_BASE_CHARGE + weeklyKmCharge)
     else :
-        weeklyTotalCharge = (WEEKLY_BASE_CHARGE + weeklyKmCharge)
+        weeklyTotalCharge = (WEEK_BASE_CHARGE + weeklyKmCharge)
 
     weekTotalTitle = "Total Charges: "
     print("%-36s $%6.2f" % (weekTotalTitle, weeklyTotalCharge))
