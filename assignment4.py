@@ -68,27 +68,27 @@ class CountryCatalogue() :
         line = data.readlines()
 
         while line != "" and readlines != "":
-            value_list = []
+            catalogueList = []
             line = line.split("|")
             readlines = readlines.split(",")
             readlines[1] = readlines[1].rstrip("\n")
             line[1] = "".join(line[1].split(","))
             line[2] = "".join(line[2].split(",")).rstrip("\n")
-            value_list.append(readlines[1])
-            value_list.append(line[1])
-            value_list.append(line[2])
-            catalogue[line[0]] = value_list
+            catalogueList =.append(readlines[1])
+            catalogueList =.append(line[1])
+            catalogueList =.append(line[2])
+            catalogue[line[0]] = catalogueList
             line = data.readlines()
             readlines = cont_data.readlines()
 
         cont_data.close()
-        data_file.close()
+        data.close()
         return catalogue
 
 
     def __init__(self, catalogue, cDictionary) :
-        self._catalogue =  data(DATA_FILE)
-        self._cDictionary = continent(CONTINENT_FILE)
+        self._catalogue =  data(data)
+        self._cDictionary = continent(cond_data)
 
 
     def addCountry(self, addCountry) :
