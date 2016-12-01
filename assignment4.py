@@ -74,9 +74,9 @@ class CountryCatalogue() :
             readlines[1] = readlines[1].rstrip("\n")
             line[1] = "".join(line[1].split(","))
             line[2] = "".join(line[2].split(",")).rstrip("\n")
-            catalogueList =.append(readlines[1])
-            catalogueList =.append(line[1])
-            catalogueList =.append(line[2])
+            catalogueList.append(readlines[1])
+            catalogueList.append(line[1])
+            catalogueList.append(line[2])
             catalogue[line[0]] = catalogueList
             line = data.readlines()
             readlines = cont_data.readlines()
@@ -95,7 +95,7 @@ class CountryCatalogue() :
         addCountryList = []
         addCountryName = input("Enter the country name: ")
 
-        while addCountryName in catalogue :
+        if addCountryName in catalogue :
             print("That country is already in the list.")
             addCountryName = input("Enter the country name: ")
         else :
@@ -140,10 +140,11 @@ class CountryCatalogue() :
             else :
                 print("There are no contries from that continent.")
 
-    def setPopulationOfASelectedCountry(self) :
+    def setPopulationOfCountry(self, newPop) :
         countryName = input("Enter the name of the country: ")
         if countryName in catalogue :
             newPop = input("Enter the updated population: ")
+            catalogue[line[1]] = newPop
 
 
     # def findCountryWithLargestPop(self) :
