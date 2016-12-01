@@ -3,10 +3,11 @@ David Moriarty
 CS1026A - Assignment 4
 """
 
-CONTINENTDATA = 'continent.txt'
-DATA = 'data.txt'
+cont_file = "continent.txt"
+data_file = "data.txt"
 
-class Country :
+
+class Country() :
 
     def __init__(self, name, population, area, continent) :
         self._name = name
@@ -14,67 +15,145 @@ class Country :
         self._area = area
         self._continent = continent
 
-    def __repr__(self) :
-        return "self._name + self._continent"
-
-    def setPopulation(self, newPop) :
-        self._population = newPop
-
     def getName(self) :
         return self._name
 
-    def getArea(self) :
-        return self._area
-
     def getPopulation(self) :
         return self._population
+
+    def getArea(self) :
+        return self._area
 
     def getContinent(self) :
         return self._continent
 
     def getPopDensity(self) :
-        return self._population / self._area
+        populationDensity = self._population / self._area
+        return populationDensity
+
+    def setPopulation(self, newPop) :
+        self._population = newPop
+
+    def __repr__(self) :
+        return "%s in %s" % ( (self._name).title(), (self._continent).title() )
 
 
+class CountryCatalogue() :
 
-class CountryCatalogue :
-
-    def __init__(self, filename) :
+    def continent(file) :
         cDictionary = {}
-        self._filename = INFILE = open('continent.txt', encoding='utf-8', "r", errors='ignore')
-        for line in INFILE:
-            data = line.split(",")
-            cDictionary[data[0]] = data[1].rstrip()
+        cont_data = open(cont_file, 'r', encoding='utf-8', errors='ignore')
 
-    def filterCountriesByContinent(self) :
+        readlines = cont_data.readline()
+        readlines = cont_data.readlines()
+
+        for line in readlines :
+            Type = line.split(",")
+            countryData = Type[0]
+            continentData = Type[1]
+            cDictionary[countryData] = continentData
+
+        cont_data.close()
+        return cDictionary
+
+    def data(file) :
+        catalogue = {}
+
+        cont_data = open(cont_file, 'r', encoding='utf-8', errors='ignore')
+        data = open(data_file, 'r', encoding='utf-8', errors='ignore')
+
+        readlines = cont_data.readline()
+        readlines = cont_data.readlines()
+        line = data.readline()
+        line = data.readlines()
+
+        while line != "" and readlines != "":
+            value_list = []
+            line = line.split("|")
+            readlines = readlines.split(",")
+            readlines[1] = readlines[1].rstrip("\n")
+            line[1] = "".join(line[1].split(","))
+            line[2] = "".join(line[2].split(",")).rstrip("\n")
+            value_list.append(readlines[1])
+            value_list.append(line[1])
+            value_list.append(line[2])
+            catalogue[line[0]] = value_list
+            line = data.readlines()
+            readlines = cont_data.readlines()
+
+        cont_data.close()
+        data_file.close()
+        return catalogue
 
 
-    def printCountryCatalogue(self) :
+    def __init__(self, catalogue, cDictionary) :
+        self._catalogue =  data(DATA_FILE)
+        self._cDictionary = continent(CONTINENT_FILE)
 
 
-    def findCountry(self) :
+    def addCountry(self, addCountry) :
+        addCountryList = []
+        addCountryName = input("Enter the country name: ")
+
+        while addCountryName in catalogue :
+            print("That country is already in the list.")
+            addCountryName = input("Enter the country name: ")
+        else :
+            addContinentName = input("Enter the continent name: ")
+            addPopulationValue = input("Enter the country's population: ")
+            addAreaValue = input("Enter the country's area: ")
+            addCountryList.append(addContinentName)
+            addCountryList.append(addPopulationValue)
+            addCountryList.append(addAreaValue)
+            catalogue[addCountryName] = addCountryList
+            print(addCountryList)
+            print()
+            print("Successfully added the country.")
+            print(addCountryName, catalogue.get(addCountryName))
 
 
     def deleteCountry(self) :
+        deleteCountryName = input("Enter the country you want to delete: ")
+        if deleteCountryName in catalogue :
+            del catalogue[deleteCountryName]
+            print(deleteCountryName, "was deleted.")
+        else :
+            print("That country wasn't found.")
+            print()
 
 
-    def addCountry(self, newCountry) :
-        self._newCountry = input(newCountry)
+    def findCountry(self) :
+        findCountry = input("Enter the country you want to lookup: ")
+        if findCountry in catalogue :
+            print(catalogue[findCountry])
+            print()
+        else :
+            print("Country not found.")
+            print()
 
+
+    def filterByContinent(self) :
+        filterContinent = input("Enter the continent you want: ")
+        for element in cDictionary :
+            if filterContinent in cDictionary.get(element) :
+                print(element)
+            else :
+                print("There are no contries from that continent.")
 
     def setPopulationOfASelectedCountry(self) :
+        countryName = input("Enter the name of the country: ")
+        if countryName in catalogue :
+            newPop = input("Enter the updated population: ")
 
 
-    def saveCountryCatalogue(self, filename) :
-
-
-    def findCountryWithLargestPop(self) :
-
-
-    def findCountryWithSmallestPop(self) :
-
-
-    def findMostPopulousContinent(self) :
-
-
-    def filterCountriesByPopDensity(self) :
+    # def findCountryWithLargestPop(self) :
+    #
+    # def findCountryWithSmallestPop(self) :
+    #
+    # def findMostPopulousContinent(self) :
+    #
+    # def filterCountriesByPopDensity(self) :
+    #
+    # def printCountryCatalogue(self) :
+    #
+    # def saveCountryCatalogue(self, filename) :
